@@ -27,8 +27,8 @@ const animateElements = document.querySelectorAll('.content .animate-element');
 const animateImages = document.querySelectorAll('.content .animate-image');
 
 const animateOnScroll = () => {
-    const triggerBottom = window.innerHeight * 0.7;
-    const triggerTop = window.innerHeight * 0.3;
+    const triggerBottom = window.innerHeight * 0.85;
+    const triggerTop = window.innerHeight * 0.15;
 
     animateElements.forEach(element => {
         const elementTop = element.getBoundingClientRect().top;
