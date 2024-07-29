@@ -1,3 +1,9 @@
+window.addEventListener('scroll', function() {
+    if (window.scrollX !== 0) {
+        window.scrollTo(0, window.scrollY);
+    }
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     const heroContent = document.getElementById('hero-content');
     const heroElements = heroContent.children;
