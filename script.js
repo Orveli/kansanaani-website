@@ -1,64 +1,63 @@
 document.addEventListener('DOMContentLoaded', () => {
     const heroContent = document.getElementById('hero-content');
     const heroElements = heroContent.children;
-    const subHeader = document.getElementById('sub-header');
     const downArrow = document.getElementById('down-arrow');
-    
-    const animateHeroElement = (index) => {
-        if (index < heroElements.length) {
+    const subHeader = document.getElementById('sub-header');
+
+    // Function to animate hero elements sequentially
+    const animateHeroElements = () => {
+        Array.from(heroElements).forEach((element, index) => {
             setTimeout(() => {
-                heroElements[index].classList.add('animate');
-                animateHeroElement(index + 1);
-            }, 500);
-        } else {
-            setTimeout(() => {
-                subHeader.classList.add('animate');
-                setTimeout(() => {
-                    downArrow.classList.add('animate');
-                }, 500);
-            }, 500);
-        }
+                element.classList.add('animate');
+            }, index * 250); // Delays each element
+        });
+
+        setTimeout(() => {
+            downArrow.classList.add('animate');
+        }, heroElements.length * 250); // Animate downArrow after hero elements
+
+        setTimeout(() => {
+            subHeader.classList.add('animate');
+        }, (heroElements.length + 1) * 250); // Animate subHeader after downArrow
     };
 
-    setTimeout(() => animateHeroElement(0), 200);
+    // Start the hero animations after a short delay
+    setTimeout(() => animateHeroElements(), 200);
 });
 
-const animateElements = document.querySelectorAll('.content .animate-element');
-const animateImages = document.querySelectorAll('.content .animate-image');
-
+// Function to animate elements on scroll
 const animateOnScroll = () => {
     const triggerBottom = window.innerHeight * 0.85;
     const triggerTop = window.innerHeight * 0.15;
 
-    animateElements.forEach(element => {
+    document.querySelectorAll('.content .animate-element').forEach(element => {
         const elementTop = element.getBoundingClientRect().top;
         const elementBottom = element.getBoundingClientRect().bottom;
 
+        // Add the animate class when the element is within the viewport
         if (elementTop < triggerBottom && elementBottom > triggerTop) {
             element.classList.add('animate');
-        } else {
-            element.classList.remove('animate');
         }
     });
 
-    animateImages.forEach(image => {
+    document.querySelectorAll('.content .animate-image').forEach(image => {
         const imageTop = image.getBoundingClientRect().top;
         const imageBottom = image.getBoundingClientRect().bottom;
 
+        // Add the animate class when the image is within the viewport
         if (imageTop < triggerBottom && imageBottom > triggerTop) {
             image.classList.add('animate');
-        } else {
-            image.classList.remove('animate');
         }
     });
 };
 
+// Event listeners for scrolling and resizing to trigger animations
 window.addEventListener('load', () => {
-    animateOnScroll();
     window.addEventListener('scroll', animateOnScroll);
     window.addEventListener('resize', animateOnScroll);
 });
 
+// Smooth scroll to content on down-arrow click
 document.getElementById('down-arrow').addEventListener('click', () => {
     window.scrollTo({
         top: document.querySelector('.content').offsetTop,
@@ -66,6 +65,7 @@ document.getElementById('down-arrow').addEventListener('click', () => {
     });
 });
 
+// Toggle active class on hover-reveal elements
 const hoverElements = document.querySelectorAll('.hover-reveal');
 
 hoverElements.forEach(element => {
@@ -75,6 +75,7 @@ hoverElements.forEach(element => {
     });
 });
 
+// Close hover elements when clicking outside
 document.addEventListener('click', function(e) {
     if (!e.target.closest('.hover-reveal')) {
         hoverElements.forEach(element => {
